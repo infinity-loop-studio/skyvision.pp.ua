@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/styles/custom.css">
+    <link rel="stylesheet" href="/styles/uikit.css">
+</head>
+<body>
+<!--Sidebar left (logo & main menu)-->
+<div uk-height-viewport class="uk-position-fixed uk-background-secondary uk-position-absolute" style="width: 250px">
+    <a href="/"><img class="uk-padding-small" src="/images/logo.webp"></a>
+    <%- positions.mainmenu %>
+</div>
+<div style="margin-left: 250px" class="uk-background-primary">
+    <%- positions.header %>
+
+    <% if (positions.article) { %>
+        <div uk-grid class="uk-background-default uk-margin-remove uk-padding">
+            <article class="uk-width-expand@l uk-first-column uk-padding-remove-left uk-article">
+                <%- positions.article %>
+            </article>
+            <% if (positions.sidebarright) { %>
+                <div class="uk-width-1-3@l">
+                    <%- positions.sidebarright %>
+                </div>
+            <% } %>
+        </div>
+    <% } %>
+
+    <% if (positions.section1){for (var i = 0; i < positions.section1.length; i++ ){ %>
+        <%- positions.section1[i] %>
+    <% }} %>
+
+    <div class="uk-margin-remove-top uk-grid-match uk-position-relative uk-background-default uk-padding-small">
+        <div>
+            <p class="uk-text-center"> © Copyright Skyvision company | Сайт сделан в <a href="http://theme-fusion.com" target="_blank" rel="noopener noreferrer"> InfinityLoop
+                    studio
+                </a>
+            </p>
+        </div>
+    </div>
+</div>
+<script src="/js/uikit.js"></script>
+<script src="/js/fontawesome/all.min.js"></script>
+<script async>
+    let slideshow = document.getElementById('mainslideshow');
+    slideshow.style.width = window.screen.width - (window.innerWidth - document.body.clientWidth) - 250 + 'px';
+</script>
+<%- positions.javascript %>
+<script src="/dependencies/sails.io.js"></script>
+<script language="JavaScript">
+    ///////////////////////////////
+    //  Session Storage Variables
+    ///////////////////////////////
+    sessionStorage.removeItem("login");
+    sessionStorage.removeItem("password");
+    sessionStorage.removeItem("commandline");
+    sessionStorage.removeItem("loginStep");
+
+    ///////////////
+    //  Functions
+    ///////////////
+    function disabledEvent(e) {
+        if (e.stopPropagation) {
+            e.stopPropagation();
+        } else if (window.event) {
+            window.event.cancelBubble = true;
+        }
+        e.preventDefault();
+        return false;
+    }
+
+    /*window.onload = function () {
+
+        //////////////////////
+        //  Hot Key Listener
+        //////////////////////
+        document.addEventListener("contextmenu", function (e) {
+            e.preventDefault();
+        }, false);
+        document.addEventListener("keydown", function (e) {
+            //document.onkeydown = function(e) {
+            // "I" key
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 73) {
+                disabledEvent(e);
+            }
+            // "J" key
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 74) {
+                disabledEvent(e);
+            }
+            // "S" key + macOS
+            if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
+                disabledEvent(e);
+            }
+            // "U" key
+            if (e.ctrlKey && e.keyCode == 85) {
+                disabledEvent(e);
+            }
+            // "3" key
+            if (event.keyCode == 51) {
+                disabledEvent(e);
+                sessionStorage.setItem('commandline', true);
+                sessionStorage.setItem("login", "");
+                sessionStorage.setItem("loginStep", "1");
+
+            }
+            // "F12" key
+            if (event.keyCode == 123) {
+                disabledEvent(e);
+            }
+        }, false);
+
+        /////////////////////////////
+        //  Command Line For Loging
+        /////////////////////////////
+        document.addEventListener("keyup", function (e) {
+            if (sessionStorage.commandline && sessionStorage.loginStep === "1" && e.key !== "3" && e.key !== "Control") {
+                if (e.key !== "Shift") {
+                    sessionStorage.login += e.key
+                    var data = {
+                        login: sessionStorage.login
+                    }
+
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("POST", '/login', true);
+                    xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+                    xhr.send(JSON.stringify(data));
+                    xhr.onload = function () {
+                        if (xhr.response === "404") {
+                            sessionStorage.removeItem("login");
+                            sessionStorage.removeItem("commandline");
+                            sessionStorage.removeItem("loginStep");
+                        }
+                        if (xhr.response === "201") {
+                            console.log('Клац');
+                            sessionStorage.loginStep = 2;
+                            sessionStorage.setItem("password", "");
+                        }
+                    }
+                }
+            }
+            if (sessionStorage.commandline && sessionStorage.loginStep === "2" && e.key !== "3" && e.key !== "Control") {
+                console.log()
+                if (e.key !== "Shift") {
+                    sessionStorage.password += e.key
+                    var data = {
+                        password: sessionStorage.password
+                    }
+
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("POST", "/password", true);
+                    xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+                    xhr.send(JSON.stringify(data));
+                    xhr.onload = function () {
+                        if (xhr.response === "404") {
+                            sessionStorage.removeItem("login");
+                            sessionStorage.removeItem("password");
+                            sessionStorage.removeItem("commandline");
+                            sessionStorage.removeItem("loginStep");
+                        }
+                        if (xhr.response === "201") {
+                            window.location.href = "/ru/телевидение"
+                        }
+                    }
+                }
+            }
+        }, false);
+    };*/
+</script>
+</body>
+</html>
